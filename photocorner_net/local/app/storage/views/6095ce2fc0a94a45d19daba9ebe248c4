@@ -1,0 +1,8 @@
+<?php $__env->startSection('content'); ?>
+<h1 class="content-heading"><?php echo t('About Us'); ?></h1>
+<p>
+    <?php echo siteSettings('about'); ?>
+
+</p>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master/index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

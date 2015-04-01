@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-md-3 br-right">
+        <a href="<?php echo route('user', ['username' => $user->username]); ?>" class="pull-left user-profile-avatar">
+            <img src="<?php echo getAvatar($user,100,100); ?>" alt="<?php echo $user->fullname; ?>">
+        </a>
+        <h4><?php echo e(ucfirst($user->fullname)); ?> <br/>
+            <small><?php echo e($user->username); ?></small>
+        </h4>
+        <?php if(Auth::check() == true): ?>
+            <?php if(Auth::user()->id == $user->id): ?>
+                <p><a href="<?php echo route('users.settings'); ?>" type="button" class="btn btn-info btn-xs"><?php echo t('Edit My Profile'); ?></a></p>
+                <p><a href="<?php echo route('users.following', ['username' => $user->username]); ?>" type="button" class="btn btn-info btn-xs"><?php echo t("I'm following"); ?></a></p>
+            <?php else: ?>
+                <?php if(checkFollow($user->id)): ?>
+                    <a type="button" class="btn btn-info btn-xs  follow" id="<?php echo $user->id; ?>"><?php echo t('Un Follow'); ?></a>
+                <?php else: ?>
+                    <a type="button" class="btn btn-info btn-xs  follow" id="<?php echo $user->id; ?>"><?php echo t('Follow Me'); ?></a>
+                <?php endif; ?>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+
+    <div class="col-md-3 br-right">
+        <div class="col-md-6 br-right">
+            <h3><?php echo $user->images->count(); ?> <br/>
+                <small><?php echo t('images'); ?></small>
+            </h3>
+        </div>
+        <div class="col-md-6">
+            <p><?php echo $user->images->sum('views'); ?> <?php echo t('Views'); ?></p>
+
+            <p><?php echo $user->comments->count(); ?> <?php echo t('Comments'); ?></p>
+
+            <p><?php echo $user->followers->count(); ?> <a href="<?php echo route('users.followers', ['username' => $user->username]); ?>"><?php echo t('Followers'); ?></a></p>
+
+            <p><?php echo $user->favorites->count(); ?> <a href="<?php echo route('users.favorites', ['username' => $user->username]); ?>"><?php echo t('Favorites'); ?></a></p>
+        </div>
+    </div>
+
+    <div class="col-md-2 br-right">
+        <p>Lokacija <?php echo countryResolver($user->country); ?></p>
+
+        <p><?php echo e($user->about_me); ?></p>
+    </div>
+
+    <div class="col-md-4 br-right">
+        <div class="col-md-4 br-right">
+            <p><a href="<?php echo route('users.rss', ['username' => $user->username]); ?>" class="black entypo-rss" target="_blank"> RSS</a></p>
+            <?php if(strlen($user->fb_link) > 2): ?>
+                <p><a href="<?php echo addhttp($user->fb_link); ?>" class="black entypo-facebook" target="_blank"> Facebook</a></p>
+            <?php endif; ?>
+            <?php if(strlen($user->tw_link) > 2): ?>
+                <p><a href="<?php echo addhttp($user->tw_link); ?>" class="black entypo-twitter" target="_blank"> Twitter</a></p>
+            <?php endif; ?>
+            <?php if(strlen($user->blogurl) > 2): ?>
+                <p><a href="<?php echo addhttp($user->blogurl); ?>" class="black fa fa-link" target="_blank"> Blog Url</a></p>
+            <?php endif; ?>
+        </div>
+        <div class="col-md-8">
+            <p>Najviše korišćene oznake</p>
+            <?php foreach($mostUsedTags as $tag => $key): ?>
+                <a href="<?php echo route('tag', ['tag' => urlencode($key)]); ?>" class="tag"><span class="label label-info"><?php echo e($key); ?></span></a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+<hr/>

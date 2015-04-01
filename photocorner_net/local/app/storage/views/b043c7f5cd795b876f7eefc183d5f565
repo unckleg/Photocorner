@@ -1,0 +1,74 @@
+<div class="comments-block">
+    <div class="col-md-8">
+        <h3 class="block-heading"><?php echo t('Comments'); ?></h3>
+        <?php echo Form::open(); ?>
+
+        <div class="form-group">
+            <?php echo Form::textarea('comment','',['class'=>"form-control",'rows'=>2,'placeholder'=>t('Comment')]); ?>
+
+        </div>
+        <div class="form-group">
+            <?php echo Form::submit(t('Comment'),['class'=>'btn btn-info']); ?>
+
+        </div>
+        <?php echo Form::close(); ?>
+
+
+        <?php foreach($comments as $comment): ?>
+            <div class="media" id="comment-<?php echo $comment->id; ?>">
+                <a class="pull-left" href="<?php echo route('user', ['user' => $comment->user->username]); ?>">
+                    <img class="media-object" src="<?php echo getAvatar($comment->user,75,75); ?>" alt="<?php echo e($comment->user->fullname); ?>" style="width: 64px; height: 64px;">
+                </a>
+
+                <div class="media-body">
+                    <h4 class="media-heading"><a href="<?php echo route('user', ['user' => $comment->user->username]); ?>"><?php echo e(ucfirst($comment->user->fullname)); ?></a> <span class="pull-right">
+                                <?php if(Auth::check() == true AND ($comment->user_id == Auth::user()->id || $image->user->id == Auth::user()->id)): ?>
+                                <button data-content="<?php echo $comment->id; ?>" type="button" class="close delete-comment" aria-hidden="true">&times;</button>
+                            <?php endif; ?>
+
+                            <i class="comment-time fa fa-clock-o"></i> <abbr class="timeago comment-time" title="<?php echo $comment->created_at->toISO8601String(); ?>"><?php echo $comment->created_at->toISO8601String(); ?></abbr> </span></h4>
+                    <p><?php echo Smilies::parse(e($comment->comment)); ?></p>
+
+                    <?php if(Auth::check()): ?>
+                        <a class="replybutton" id="box-<?php echo $comment->id; ?>"><?php echo t('Reply'); ?></a>
+
+                        <div class="commentReplyBox" id="openbox-<?php echo $comment->id; ?>">
+                            <input type="hidden" name="pid" value="19">
+                            <?php echo Form::textarea('comment','',['id'=>'textboxcontent'.$comment->id,'class'=>"form-control",'rows'=>2,'placeholder'=>t('Comment')]); ?>
+
+                            </br>
+                            <button class="btn btn-info replyMainButton" id="<?php echo $comment->id; ?>"><?php echo t('Reply'); ?></button>
+                            <a class="closebutton" id="box-<?php echo $comment->id; ?>"><?php echo t('Cancel'); ?></a>
+                        </div>
+                        <span class="reply-add-<?php echo $comment->id; ?>"></span>
+                    <?php endif; ?>
+                    <?php foreach($comment->reply as $reply): ?>
+                        <hr/>
+                        <div class="media" id="reply-<?php echo $reply->id; ?>">
+                            <a class="pull-left" href="<?php echo route('user', ['user' => $reply->user->username]); ?>">
+                                <img class="media-object" src="<?php echo getAvatar($reply->user,64,64); ?>" alt="<?php echo e($reply->user->fullname); ?>" style="width: 64px; height: 64px;">
+                            </a>
+
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="<?php echo route('user', ['user' => $reply->user->username]); ?>"><?php echo e(ucfirst($reply->user->fullname)); ?></a> <span class="pull-right">
+                                        <?php if(Auth::check() === true AND ($reply->user_id == Auth::user()->id || $image->id == Auth::user()->id || $reply->comment->user->id == Auth::user()->id)): ?>
+                                            <span class="right"><button data-content="<?php echo $reply->id; ?>" type="button" class="close delete-reply" aria-hidden="true">&times;</button></span>
+                                        <?php endif; ?>
+                                        <i class="comment-time fa fa-clock-o"></i> <abbr class="timeago comment-time" title="<?php echo $reply->created_at->toISO8601String(); ?>"><?php echo $reply->created_at->toISO8601String(); ?></abbr> </span></h4>
+                                <p><?php echo Smilies::parse(e($reply->reply)); ?></p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <hr/>
+            </div>
+        <?php endforeach; ?>
+
+        <div class="row">
+            <?php echo $comments->links(); ?>
+
+        </div>
+    </div>
+
+    <!--.col-md-8-->
+</div>

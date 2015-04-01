@@ -1,0 +1,33 @@
+<?php $__env->startSection('style'); ?>
+	<?php echo HTML::style('static/css/slike.css'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<h1 class="content-heading"><?php echo t('Login'); ?></h1>
+
+<?php echo Form::open(); ?>
+
+<div class="form-group">
+    <label for="username"><?php echo t('Username or Email address'); ?></label>
+    <?php echo Form::text('username','',array('class'=>'form-control','id'=>'username','placeholder'=>t('Username or Email address'))); ?>
+
+</div>
+<div class="form-group">
+    <label for="password"><?php echo t('Password'); ?></label>
+    <?php echo Form::password('password',array('class'=>'form-control','id'=>'password','placeholder'=>t('Password'),'autocomplete'=>'off')); ?>
+
+</div>
+<div class="checkbox">
+    <label>
+       <?php echo t('Remember Me'); ?> <?php echo Form::checkbox('remember-me', 'value'); ?>
+
+    </label>
+    &nbsp;&middot;&nbsp; <a href="<?php echo url('password/remind'); ?>">Zaboravili ste šifru? </a>
+</div>
+<?php echo Form::submit(t('Login'),array('class'=>'btn btn-success')); ?> ili putem <a href="<?php echo url('get/facebook'); ?>"><img src="<?php echo asset('static/img/facebook.png'); ?>"></a>&nbsp;<a href="<?php echo url('get/google'); ?>"><img src="<?php echo asset('static/img/google.png'); ?>"></a>
+<?php echo Form::close(); ?>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master/index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

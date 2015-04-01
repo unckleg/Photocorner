@@ -1,0 +1,27 @@
+{
+    "name": "thapp/jitimage",
+    "description": "Just in time image manipulation with support for laravel 4",
+    "keywords": ["image", "gd", "imagemagick", "imagick", "laravel", "filter", "thumbnail", "just in time"],
+    "require": {
+        "php":">=5.4.0",
+        "illuminate/support":"~4.1",
+        "symfony/filesystem":"~2.4",
+        "symfony/http-foundation": "~2.4"
+    },
+    "require-dev": {
+        "mockery/mockery": "dev-master",
+        "mikey179/vfsStream":"dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Appel",
+            "email": "mail@thomas-appel.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0":{"Thapp":"src/"},
+        "classmap":["tests/"]
+    }
+}

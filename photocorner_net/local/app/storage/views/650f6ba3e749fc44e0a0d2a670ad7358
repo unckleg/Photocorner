@@ -1,0 +1,39 @@
+<?php $__env->startSection('style'); ?>
+	<?php echo HTML::style('static/css/slike.css'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <?php if(Session::has('error')): ?>
+        <div class="alert alert-danger fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <strong><?php echo trans(Session::get('reason')); ?></strong>
+        </div>
+    <?php endif; ?>
+    <h1 class="content-heading"><?php echo t('Registration'); ?></h1>
+    <?php echo Form::open(); ?>
+
+    <div class="form-group">
+        <label for="username"><?php echo t('Select Username'); ?><small>*</small></label>
+        <?php echo Form::text('username','',['class'=>'form-control','id'=>'username','placeholder'=>'Izaberite Korisničko ime','required'=>'required']); ?>
+
+    </div>
+
+    <div class="form-group">
+        <label for="password"><?php echo t('Password'); ?><small>*</small></label>
+        <?php echo Form::password('password',['class'=>'form-control','id'=>'password','placeholder'=>'Unesi šifru','autocomplete'=>'off','required'=>'required']); ?>
+
+    </div>
+    <div class="form-group">
+        <label for="password_confirmation"><?php echo t('Retype Password'); ?><small>*</small></label>
+        <?php echo Form::password('password_confirmation',['class'=>'form-control','id'=>'password_confirmation','placeholder'=>'Potvrdi šifru','autocomplete'=>'off','required'=>'required']); ?>
+
+    </div>
+      <p><small>Klikom na "Napravi novi nalog" prihvatate sledeće<a href="<?php echo route('tos'); ?>"> uslove</a> i <a href="<?php echo route('privacy'); ?>">politiku privatnosti</a></small></p>
+   <?php echo Form::submit(t('Create New Account'),['class'=>'btn btn-success']); ?>
+
+   <?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('master/index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

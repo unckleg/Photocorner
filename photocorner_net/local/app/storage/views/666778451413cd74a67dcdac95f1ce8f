@@ -1,0 +1,65 @@
+<?php $__env->startSection('content'); ?>
+   <?php echo $__env->make('user/topbar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+   <h1 class="content-heading"><?php echo e(ucfirst($user->fullname)); ?>'s Favorites</h1>
+   <div class="gallery">
+      <span id="links"></span>
+      <?php foreach(array_chunk($images->getCollection()->all(),3) as $img): ?>
+         <div class="row">
+            <?php foreach($img as $image): ?>
+               <?php if($image->user): ?>
+                  <div class="col-md-4 col-sm-4 gallery-display">
+                     <?php if($image->featured_at): ?>
+                        <div class="right-ribbon">
+                           <?php echo t('Featured'); ?>
+
+                        </div>
+                     <?php endif; ?>
+                     <figure>
+                        <a href="<?php echo route('image', ['id' => $image->id, 'slug' => $image->slug]); ?>">
+                           <img data-original="<?php echo reSizeImage($image,360,360,'zoomCrop'); ?>" alt="<?php echo e(Str::limit(ucfirst($image->title),30)); ?>" class="display-image">
+                        </a>
+                        <a href="<?php echo route('image', ['id' => $image->id, 'slug' => $image->slug]); ?>" class="figcaption">
+                           <h3><?php echo e(Str::limit(ucfirst($image->title),40)); ?></h3>
+                           <span><?php echo e(Str::limit(ucfirst($image->image_description),80)); ?></span>
+                        </a>
+                     </figure>
+                     <!--figure-->
+                     <div class="box-detail">
+                        <h5 class="heading"><a href="<?php echo route('image', ['id' => $image->id, 'slug' => $image->slug]); ?>"><?php echo e(Str::limit(ucfirst($image->title),15)); ?></a></h5>
+                        <ul class="list-inline gallery-details">
+                           <li><a href="<?php echo route('user', ['username' => $image->user->username]); ?>"><?php echo e(ucfirst($image->user->fullname)); ?></a></li>
+                           <li class="pull-right"><i class="fa fa-eye"></i> <?php echo $image->views; ?> <i class="fa fa-heart"></i> <?php echo $image->favorite->count(); ?> <i class="fa fa-comments"></i> <?php echo $image->comments->count(); ?>
+
+                              <span id="links"><a href="<?php echo reSizeImage($image,1140,1140,'cropResize'); ?>" title="<?php echo e(ucfirst($image->title)); ?>" data-gallery data-description="<?php echo e($image->image_description); ?>"><i class="fa fa-external-link"></i></a></span>
+                           </li>
+                        </ul>
+                     </div>
+                     <!--.box-detail-->
+                  </div>
+                  <!--.gallery-display-->
+               <?php endif; ?>
+            <?php endforeach; ?>
+         </div>
+      <?php endforeach; ?>
+      <div id="blueimp-gallery" class="blueimp-gallery">
+         <div class="slides"></div>
+         <h3 class="title"></h3>
+         <p class="description"></p>
+         <a class="prev">‹</a>
+         <a class="next">›</a>
+         <a class="close">×</a>
+         <a class="play-pause"></a>
+         <ol class="indicator"></ol>
+      </div>
+      <!--.blueimp-gallery-->
+   </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('pagination'); ?>
+   <div class="row">
+      <div class="container">
+         <div class="col-md-12"> <?php echo $images->links(); ?></div>
+      </div>
+   </div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master/index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

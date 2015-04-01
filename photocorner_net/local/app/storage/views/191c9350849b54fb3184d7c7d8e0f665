@@ -1,0 +1,56 @@
+<?php if($image->info): ?>
+    <?php if($image->info->camera || $image->info->lens || $image->info->focal_length || $image->info->shutter_speed || $image->info->aperture || $image->info->iso || $image->info->longitude || $image->taken_at): ?>
+        <h3 class="block-heading"><?php echo t('EXIF Data'); ?></h3>
+    <?php endif; ?>
+    <div class="clearfix exif">
+        <?php if(isset($image->info->camera)): ?>
+            <p><strong><?php echo t('Model'); ?> </strong><?php echo e($image->info->camera); ?></p>
+        <?php endif; ?>
+        <?php if(isset($image->info->lens)): ?>
+            <p><strong><?php echo t('Lens'); ?> </strong><?php echo e($image->info->lens); ?></p>
+        <?php endif; ?>
+        <?php if(isset($image->info->focal_length)): ?>
+            <p><strong><?php echo t('Focal Length'); ?> </strong><?php echo e($image->info->focal_length); ?></p>
+        <?php endif; ?>
+        <?php if(isset($image->info->shutter_speed)): ?>
+            <p><strong><?php echo t('Shutter Speed'); ?> </strong><?php echo e($image->info->shutter_speed); ?></p>
+        <?php endif; ?>
+        <?php if(isset($image->info->aperture)): ?>
+            <p><strong><?php echo t('Aperture'); ?> </strong><?php echo e($image->info->aperture); ?></p>
+        <?php endif; ?>
+        <?php if(isset($image->info->iso)): ?>
+            <p><strong><?php echo t('ISO'); ?> </strong><?php echo e($image->info->iso); ?></p>
+        <?php endif; ?>
+        <?php if(isset($image->info->taken_at)): ?>
+            <p><strong><?php echo t('Taken At'); ?> </strong><?php echo e($image->info->taken_at->toDayDateTimeString()); ?></p>
+        <?php endif; ?>
+        <?php if(isset($image->info->longitude) && isset($image->info->latitude)): ?>
+            <div id="gmaps" style="height:250px;"></div>
+        <?php endif; ?>
+
+    </div>
+<?php endif; ?>
+
+
+<?php $__env->startSection('extrafooter'); ?>
+    <?php if(isset($image->info->longitude) && isset($image->info->latitude)): ?>
+        <?php echo HTML::script('static/js/gmaps.js'); ?>
+
+        <script type="text/javascript">
+            var map;
+            $(function(){
+                map = new GMaps({
+                    div: '#gmaps',
+                    lat: <?php echo $image->info->latitude; ?>,
+                    lng: <?php echo $image->info->longitude; ?>,
+                    zoom: 5
+                });
+                map.addMarker({
+                    lat: <?php echo $image->info->latitude; ?>,
+                    lng: <?php echo $image->info->longitude; ?>
+
+                });
+            });
+        </script>
+    <?php endif; ?>
+<?php $__env->stopSection(); ?>

@@ -1,0 +1,28 @@
+<?php $__env->startSection('content'); ?>
+    <h3 class="content-heading"><?php echo t('Password Reset'); ?></h3>
+
+    <h2>Registracija</h2>
+    <hr>
+    <?php echo Form::open(); ?>
+
+    <div class="form-group">
+        <label for="email">Email
+            <small>*</small>
+        </label>
+        <?php echo Form::text('email','',['class'=>'form-control','id'=>'email','placeholder'=>'Vaša email adresa','required'=>'required']); ?>
+
+    </div>
+    <div class="form-group">
+        <label for="recaptcha">Unesite ove reči
+            <small>*</small>
+        </label>
+        <?php echo app('captcha')->display(); ?>
+
+    </div>
+
+    <?php echo Form::submit('Promeni šifru',['class'=>'btn btn-success']); ?>
+
+    <?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master/index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

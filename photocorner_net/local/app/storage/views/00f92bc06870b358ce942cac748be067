@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo siteSettings('siteName'); ?> - Admin Panel</title>
+    <?php echo HTML::style('static/admin/css/bootstrap.min.css'); ?>
+
+    <?php echo HTML::style('static/admin/font-awesome/css/font-awesome.css'); ?>
+
+    <?php echo $__env->yieldContent('extra-css'); ?>
+    <?php echo HTML::style('static/css/jquery-ui.css'); ?>
+
+    <?php echo HTML::style('static/css/jquery.fileupload.css'); ?>
+
+    <?php echo HTML::style('static/css/jquery.fileupload-ui.css'); ?>
+
+      <?php echo HTML::style('static/plugin/css/select2.css'); ?>
+
+    <?php echo HTML::style('static/css/tagmanager.css'); ?>
+
+    <?php echo HTML::style('static/admin/plugins/footable/css/footable.core.css'); ?>
+
+    <?php echo HTML::style('static/admin/css/sb-admin.css'); ?>
+
+
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="<?php echo url('admin'); ?>">Admin Panel</a>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="<?php echo route('home'); ?>">Vrati se na sajt</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li>
+                    <a href="<?php echo url('admin'); ?>"><i class="fa fa-dashboard fa-fw"></i>Glavni Panel</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-users fa-fw"></i> Korisnici<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li>
+                            <a href="<?php echo url('admin/users'); ?>">Svi Korisnici</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo url('admin/users/featured'); ?>">Featured Korisnici</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo url('admin/users/banned'); ?>">Banovani Korisnici</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo url('admin/adduser'); ?>">Dodaj prave/lažne korisnike</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-sledeci nivo -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-picture-o fa-fw"></i> Fotografije<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li>
+                            <a href="<?php echo url('admin/images'); ?>">Sve Fotografije</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo url('admin/images/featured'); ?>">Featured Fotografije</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo url('admin/images/approval'); ?>">Potrebna Dozvola</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-sledeci nivo -->
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Blog<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li>
+                            <a href="<?php echo url('admin/blogs'); ?>">Svi Blogovi</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo url('admin/blog/create'); ?>">Dodaj Novi</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-sledeci nivo -->
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa fa-wrench fa-fw"></i> Podešavanja Mreže<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li>
+                            <a href="<?php echo url('admin/sitesettings'); ?>">Detalji Mreže</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo url('admin/limitsettings'); ?>">Ograniči Podešavanja</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo url('admin/sitecategory'); ?>">Foto Kategorije</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-sledeci nivo -->
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa fa-plus fa-fw"></i> Extra<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li>
+                            <a href="<?php echo url('admin/updatesitemap'); ?>">Ažuriraj SiteMap</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo url('admin/bulkupload'); ?>">Bulk Otpremanje</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo url('admin/clearcache'); ?>">Očisti Keš</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-sledeci nivo -->
+                </li>
+            </ul>
+            <!-- /#side-meni -->
+        </div>
+        <!-- /.sidebar-ruši -->
+    </nav>
+    <div id="page-wrapper">
+        <?php if(Session::has('flashSuccess')): ?>
+        <div class="alert alert-success fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <strong><?php echo Session::get('flashSuccess'); ?></strong>
+        </div>
+        <?php endif; ?>
+
+        <?php if(Session::has('flashError')): ?>
+        <div class="alert alert-danger fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <strong><?php echo Session::get('flashError'); ?></strong>
+        </div>
+        <?php endif; ?>
+
+        <?php if(Session::has('errors')): ?>
+        <div class="alert alert-danger fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <strong><?php echo Session::get('errors')->first(); ?></strong>
+        </div>
+        <?php endif; ?>
+
+        <!--Sadrzaj-->
+        <?php echo $__env->yieldContent('content'); ?>
+
+    </div> <!--.page-wrapper-->
+</div>
+
+<?php echo HTML::script('static/admin/js/jquery-1.10.2.js'); ?>
+
+<?php echo HTML::script('static/admin/js/jquery-ui.min.js'); ?>
+
+<?php echo HTML::script('static/admin/js/bootstrap.min.js'); ?>
+
+<?php echo HTML::script('static/admin/js/plugins/metisMenu/jquery.metisMenu.js'); ?>
+
+<?php echo HTML::script('static/admin/js/sb-admin.js'); ?>
+
+<?php echo HTML::script('static/js/jquery.timeago.js'); ?>
+
+<?php echo HTML::script('static/plugin/js/select2.min.js'); ?>
+
+<?php echo HTML::script('static/admin/plugins/footable/js/footable.js'); ?>
+
+<?php echo HTML::script('static/admin/plugins/footable/js/footable.filter.js'); ?>
+
+<?php echo HTML::script('static/admin/plugins/footable/js/footable.sort.js'); ?>
+
+<?php echo HTML::script('static/admin/js/multiUpload.js'); ?>
+
+<?php echo HTML::script('static/admin/js/sortable.js'); ?>
+
+<?php echo HTML::script('static/admin/js/custom.js'); ?>
+
+<?php echo $__env->yieldContent('extra-js'); ?>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.2/ckeditor.js"></script>
+<script>
+    var time = $('abbr.timeago');
+    time.timeago();
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.footable').footable();
+</script>
+</body>
+</html>

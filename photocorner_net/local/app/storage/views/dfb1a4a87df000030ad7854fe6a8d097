@@ -1,0 +1,81 @@
+<?php /*Title of the page*/ ?>
+<?php $__env->startSection('title'); ?>
+   <?php if(Input::get('category')): ?><?php echo e($title); ?> <?php echo e(t('in category')); ?> <?php echo getCategoryName(Input::get('category')); ?><?php else: ?><?php echo e($title); ?><?php endif; ?>
+<?php $__env->stopSection(); ?>
+
+
+<?php $__env->startSection('style'); ?>
+	<?php echo HTML::style('static/css/popular.css'); ?>
+
+<?php $__env->stopSection(); ?>
+
+
+<?php /*Main cotent*/ ?>
+<?php $__env->startSection('content'); ?>
+   <?php if(Input::get('category')): ?>
+      <h1 class="content-heading"><?php echo e($title); ?> <?php echo e(t('in category')); ?> <?php echo getCategoryName(Input::get('category')); ?></h1>
+   <?php else: ?>
+      <h1 class="content-heading"><?php echo e($title); ?></h1>
+   <?php endif; ?>
+   <?php echo $__env->make('gallery/util-list', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 
+   <div class="gallery"> 
+      <span id="links"></span>
+      <?php foreach(array_chunk($images->getCollection()->all(),5) as $img): ?>
+         <div class="row">
+            <?php foreach($img as $image): ?>
+               <?php if($image->user): ?>
+                  <div class="col-md-15 col-sm-3 gallery-display">
+                     <?php if($image->featured_at): ?>
+                        <div class="right-ribbon"> 
+                           <?php echo t('Featured'); ?>
+
+                        </div>
+                     <?php endif; ?>
+                     <figure>
+                        <a href="<?php echo route('image', ['id' => $image->id, 'slug' => $image->slug]); ?>">
+                           <img data-original="<?php echo reSizeImage($image,360,360,'zoomCrop'); ?>" alt="<?php echo e(Str::limit(ucfirst($image->title),30)); ?>" class="display-image">
+                        </a>
+                        <a href="<?php echo route('image', ['id' => $image->id, 'slug' => $image->slug]); ?>" class="figcaption">
+                           <h3><?php echo e(Str::limit(ucfirst($image->title),40)); ?></h3>
+                           <span><?php echo e(Str::limit(ucfirst($image->image_description),80)); ?></span>
+                        </a>
+                     </figure>
+                     <!--figure-->
+                     <div class="box-detail">
+                        <h5 class="heading"><a href="<?php echo route('image', ['id' => $image->id, 'slug' => $image->slug]); ?>"><?php echo e(Str::limit(ucfirst($image->title),15)); ?></a></h5>
+                        <ul class="list-inline gallery-details">
+                           <li><a href="<?php echo route('user', ['username' => $image->user->username]); ?>"><?php echo e(ucfirst($image->user->fullname)); ?></a></li>
+                           <li class="pull-right"><i class="fa fa-eye"></i> <?php echo $image->views; ?> <i class="fa fa-heart"></i> <?php echo $image->favorite->count(); ?> <i class="fa fa-comments"></i> <?php echo $image->comments->count(); ?>
+
+                              <span id="links"><a href="<?php echo reSizeImage($image,1140,1140,'cropResize'); ?>" title="<?php echo e(ucfirst($image->title)); ?>" data-gallery data-description="<?php echo e($image->image_description); ?>"><i class="fa fa-external-link"></i></a></span>
+                           </li>
+                        </ul>
+                     </div>
+                     <!--.box-detail-->
+                  </div>
+                  <!--.gallery-display-->
+               <?php endif; ?>
+            <?php endforeach; ?>
+         </div>
+      <?php endforeach; ?>
+      <div id="blueimp-gallery" class="blueimp-gallery">
+         <div class="slides"></div>
+         <h3 class="title"></h3>
+         <p class="description"></p>
+         <a class="prev">‹</a>
+         <a class="next">›</a>
+         <a class="close">×</a>
+         <a class="play-pause"></a>
+         <ol class="indicator"></ol>
+      </div>
+      <!--.blueimp-gallery-->
+   </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('pagination'); ?>
+   <div class="row">
+      <div class="container">
+         <div class="col-md-12"> <?php echo $images->links(); ?></div>
+      </div>
+   </div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master/index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

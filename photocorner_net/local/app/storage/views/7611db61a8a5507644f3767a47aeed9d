@@ -1,0 +1,21 @@
+<?php $__env->startSection('content'); ?>
+    <h2 class="content-heading"><?php echo $title; ?></h2>
+
+    <?php foreach($blogs as $blog): ?>
+        <h1 class="blog-title"><a href="<?php echo route('blog', ['id' => $blog->id, 'slug' => $blog->slug]); ?>"><?php echo ucfirst($blog->title); ?></a></h1>
+        <p class="blog-meta"><?php echo t('Published by'); ?> <a href="<?php echo route('user', ['username' => $blog->user->username]); ?>"><?php echo $blog->user->fullname; ?></a> &middot; <abbr class="timeago comment-time" title="<?php echo $blog->created_at->toISO8601String(); ?>"><?php echo $blog->created_at->toISO8601String(); ?></abbr></p>
+        <p><?php echo $blog->description; ?></p>
+        <hr/>
+    <?php endforeach; ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('pagination'); ?>
+    <div class="row">
+        <div class="container">
+            <?php echo $blogs->links(); ?>
+
+        </div>
+    </div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('master/index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,23 @@
+@import url(http://nicholastodor.com/sf/usesf.css);
+.util-list {
+	display: none;
+}
+
+.navbar-inverse { 
+	background-color: rgba(27, 24, 24, 0.9) !important;
+	color: white !important;
+	position: fixed !important;
+	top: 0; left: 0 !important;
+	width: 100% !important;
+	height: 49px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	border-color: transparent !important;
+	font-family: 'San Francisco Display', sans-serif;
+	font-weight: 600;
+}
+
+.header-scrolled .header_bg, .header-scrolled nav.main_menu a, .header-scrolled #header_meta { 
+background: none repeat scroll 0 0 black !important; 
+
+}
